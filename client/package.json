@@ -1,0 +1,26 @@
+{
+  "name": "docker-flow-proxy-dashboard",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "bootstrap": "^4.0.0-alpha.6",
+    "chart.js": "^1.1.1",
+    "react": "^15.6.1",
+    "react-bar-chart": "^0.1.2",
+    "react-bootstrap": "^0.31.2",
+    "react-chartjs": "^0.8.0",
+    "react-dom": "^15.6.1",
+    "react-graph-vis": "^0.1.2",
+    "react-json-pretty": "^1.6.3",
+    "react-json-tree": "^0.10.9",
+    "react-router-dom": "^4.1.2",
+    "react-scripts": "1.0.10"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "proxy": "http://0.0.0.0:3333"
+}
