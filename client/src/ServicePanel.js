@@ -24,34 +24,38 @@ class ServicePanel extends Component {
       <div className="content">
           <div className="container-fluid">
               <div className="row">
-              <h2 className="header"><i className="pe-7s-config"></i>{this.props.match.params.name}</h2>
-                  <div className="col-md-12">
+              <div className="col-md-12">
+              <h2 className="header"><i className="pe-7s-config"></i> {this.props.match.params.name}</h2>
+              </div>
+                  <div className="col-md-4">
                       <div className="card">
                           <div className="header">
                               <h4 className="title">Configurations</h4>
                           </div>
+                          <div id="conf">
                           <ConfPanel service={this.props.match.params.name}></ConfPanel>
-                      </div>
-                  </div>
-                  <br/>
-                  <br/>
-                  <div className="col-md-12">
-                      <div className="card" id="logs">
-                          <div className="header">
-                              <h4 className="title">Stderr Logs</h4>
-
                           </div>
-                          <LogsPanel service={this.props.match.params.name}></LogsPanel>
                       </div>
                   </div>
                   <br/>
                   <br/>
-                  <div className="col-md-12">
+                  <div className="col-md-8">
                       <div className="card">
                           <div className="header">
                               <h4 className="title">Stats</h4>
+
                           </div>
                         <StatsPanel service={this.props.match.params.name}></StatsPanel>
+                      </div>
+                  </div>
+                  <br/>
+                  <br/>
+                  <div className="col-md-12" >
+                      <div className="card" id="logs">
+                          <div className="header">
+                              <h4 className="title">Logs</h4>
+                          </div>
+                            <LogsPanel service={this.props.match.params.name}></LogsPanel>
                       </div>
                   </div>
 

@@ -1,17 +1,17 @@
 /*!
-    
+
  =========================================================
  * Light Bootstrap Dashboard - v1.3.1.0
  =========================================================
- 
+
  * Product Page: http://www.creative-tim.com/product/light-bootstrap-dashboard
  * Copyright 2017 Creative Tim (http://www.creative-tim.com)
  * Licensed under MIT (https://github.com/creativetimofficial/light-bootstrap-dashboard/blob/master/LICENSE.md)
- 
+
  =========================================================
- 
+
  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
- 
+
  */
 /*      light colors         */
 @keyframes spin {
@@ -84,7 +84,7 @@ h6, .h6 {
   text-transform: uppercase; }
 
 p {
-  font-size: 16px;
+  font-size: 14px;
   line-height: 1.5; }
 
 h1 small, h2 small, h3 small, h4 small, h5 small, h6 small, .h1 small, .h2 small, .h3 small, .h4 small, .h5 small, .h6 small, h1 .small, h2 .small, h3 .small, h4 .small, h5 .small, h6 .small, .h1 .small, .h2 .small, .h3 .small, .h4 .small, .h5 .small, .h6 .small {
@@ -1597,7 +1597,7 @@ body > .navbar-collapse {
     margin-bottom: 5px;
     text-transform: uppercase; }
   .card .title {
-    margin: 0;
+    margin: 0px 0px 7px 0px;
     color: #333333;
     font-weight: 300; }
   .card .avatar {

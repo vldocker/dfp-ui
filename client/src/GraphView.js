@@ -35,11 +35,16 @@ function setNetworkInstance(nw){
 var event = {
   selectNode: function(event) {
     ///var
-    console.log(event.nodes[0]);
-    console.log(network.body);
+  var typePanelPath = "";
+    if(event.nodes[0].indexOf("Services") != -1){
+      typePanelPath = "/service-panel/";
 
-    //add if isnt network
-    window.location.href = window.location.origin + "/service-panel/" + event.nodes[0].substring(9,event.nodes[0].length);
+    }
+    else{
+      typePanelPath = "/network-panel/";
+    }
+
+    window.location.href = window.location.origin + typePanelPath + event.nodes[0].substring(9,event.nodes[0].length);
   }
 
 }

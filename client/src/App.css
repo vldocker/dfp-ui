@@ -41,8 +41,9 @@ h1 {
 }
 
 h2 {
-    font-size: 4rem;
+    font-size: 3rem;
     font-weight: lighter;
+    margin: 10px 10px 12px 10px;
 }
 
 h3 {
@@ -53,6 +54,14 @@ h3 {
 h4 {
     font-size: 1.75rem;
     font-weight: 100;
+}
+h5 {
+    font-size: 1.55rem;
+    font-weight: 100;
+}
+
+#total-req{
+  padding: 0px 15px 0;
 }
 
 #panels {
@@ -70,6 +79,12 @@ h4 {
     overflow: scroll;
 }
 
+#conf{
+  font-size: small;
+  margin-left: 20px;
+
+}
+
 
 .list-groups {
   border: solid;
@@ -80,6 +95,12 @@ h4 {
 -webkit-box-shadow: 2px 6px 13px 0px rgba(0,0,0,0.75);
 -moz-box-shadow: 2px 6px 13px 0px rgba(0,0,0,0.75);
 box-shadow: 2px 6px 13px 0px rgba(0,0,0,0.75);
+}
+
+#avg-time{
+
+    margin-left: 15px;
+
 }
 
 

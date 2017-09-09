@@ -15,7 +15,6 @@ var dockerApiVersion = process.env.DOCKER_API_VERSION;
 ///TODO
 var dockerApiUrl = "http://v1." + dockerApiVersion;
 
-
 /**************************Server state*******************************************/
 
 /*docker swarm cluster states*/
@@ -41,19 +40,22 @@ var graphResponse = {};
 /**************************Cluster state getters*******************************************/
 
 module.exports.getNetworks = function(){
-  return networks;
+  var networksNames = [];
+    networks.forEach(function(element){
+    networksNames.push(element["Name"]);
+  });
+  return networksNames;
 }
 
 
 module.exports.getNetwork = function(network){
-  var data = networks.filter(function(element){
+    var data = networks.filter(function(element){
     return element["Name"] === network;
   })
   return data;
 }
 
 module.exports.getLogs = function(service){
-
   return servicesLogs[service];
 }
 
@@ -73,7 +75,7 @@ module.exports.getProxyServices = function(){
 
 
 module.exports.getConf = function(service){
-  var conf = servicesConf.filter(function(element){
+    var conf = servicesConf.filter(function(element){
     return service === element["Spec"]["Name"];
   })
 
@@ -107,7 +109,6 @@ let options = {
            res.on('end', () => {
                const parsedData = JSON.parse(rawData);
                 networks = eval(parsedData);
-               ///console.log(parsedData);
 
            });
        });
@@ -133,7 +134,6 @@ let options = {
            res.on('end', () => {
                const parsedData = JSON.parse(rawData);
                 servicesConf = eval(parsedData);
-              /// console.log(parsedData);
 
            });
        });
@@ -157,9 +157,8 @@ function stdoutToJson(stdout){
 
 }
 
-//TODO change tail var to be configurable
 function updateServicesLogs(){
-  var logs = [];
+
  servicesConf.forEach( service => {
 
    let options = {
@@ -172,11 +171,9 @@ function updateServicesLogs(){
               let rawData = '';
               res.on('data', (chunk) => {
                   rawData += chunk;
-                ///  console.log("inside log" + logs);
               });
               res.on('end', () => {
-                   logs[service["Spec"]["Name"]] = rawData;
-                  console.log("logs");
+                   servicesLogs[service["Spec"]["Name"]] = rawData;
 
               });
           });
@@ -187,7 +184,6 @@ function updateServicesLogs(){
 
 });
 
- servicesLogs = logs;
 }
 
 
@@ -290,16 +286,12 @@ function aggregateServicesStats(data){
         var totalRes = Number(serviceInstance.hrsp_other) + Number(serviceInstance.hrsp_1xx) + Number(serviceInstance.hrsp_2xx)
          + Number(serviceInstance.hrsp_3xx) + Number(serviceInstance.hrsp_4xx) +  Number(serviceInstance.hrsp_5xx);
          var othersRes = Number(serviceInstance.hrsp_other) + Number(serviceInstance.hrsp_1xx) + Number(serviceInstance.hrsp_3xx);
+        totalService.qtime += Number(serviceInstance.qtime / filteredServiceStats.length );
+        totalService.ctime += Number(serviceInstance.ctime / filteredServiceStats.length );
+        totalService.rtime += Number(serviceInstance.rtime / filteredServiceStats.length );
+        totalService.ttime += Number(serviceInstance.ttime / filteredServiceStats.length );
         totalService.hrsp_other +=  othersRes;
         totalService.req_tot += totalRes;
-
-        /*//TODO add these metrics to the totalservice object
-          //    qtime: 0,
-          //    ctime: 0,
-          //    rtime: 0,
-          //    ttime: 0
-        */
-
       })
     }
     updatedStats.push(totalService);
@@ -383,19 +375,18 @@ function getPropertyValues(property, jsonObj){
 function updateAllStates(){
   updateNetworks();
   updateServicesConf();
-///  updateServicesLogs();
+  updateServicesLogs();
   updateFlowProxyServices();
   updateServicesStats();
   updateGraphResponse();
-
 }
 
 updateAllStates();
 
-/* update cluster state every 30 seconds*/
+/* update cluster state every 10 seconds*/
 setInterval(function () {
 
   updateAllStates();
 
 
-}, 30000);
+}, 10000);
