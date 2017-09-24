@@ -1,16 +1,16 @@
-# dfp-ui
+# dfp-UI
 
-the goal of this project is to supply a virtualization layer to the swarm cluster in docker flow proxy projcet,
+The goal of this project is to supply a virtualization layer to the swarm cluster in the docker flow proxy project,
 in hence we build a tool using react+nodejs on top of the swarm cluster that will supply information about 3 main things:
 
-1. cluster View - a graph that display all the network in the cluster and the services that connect to each network
+1. cluster View - a graph that displays all the network in the cluster and the services that connect to each network
 
-2. Service - each service will include details about the service configuration , service last logs.
-             the services that is part of the proxy network will contain all the ha-proxy satistics.
+2. Service - each service will include details about the service configuration, service last logs.
+             The services that are part of the proxy network will contain all the ha-proxy statistics.
 
 3. Network - each network with all the configuration details and services that related to the network.
 -------------------------------------------------------------------------------------------------------------------------
- # requirments:
+ # requirements:
  
 go to address [PROXY_IP]:[PROXY_PORT]/metrics and defined the environment variables STATS_USER and STATS_PASS
  
@@ -78,7 +78,3 @@ services:
  networks:
   default:
     external: false
-
-
- 
- 
