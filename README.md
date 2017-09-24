@@ -9,7 +9,11 @@ in hence we build a tool using react+nodejs on top of the swarm cluster that wil
              the services that is part of the proxy network will contain all the ha-proxy satistics.
 
 3. Network - each network with all the configuration details and services that related to the network.
-
+-------------------------------------------------------------------------------------------------------------------------
+ # requirments:
+ 
+go to address [PROXY_IP]:[PROXY_PORT]/metrics and defined the environment variables STATS_USER and STATS_PASS
+ 
 -------------------------------------------------------------------------------------------------------------------------
  # A Docker Service is created with the following syntax: 
  
@@ -20,7 +24,60 @@ service create --name dfp-ui /
 --env PROXY_HOST_AND_PORT="http://proxy:8080"/ 
 --constraint 'node.role == manager' /
 --mount type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock /
-dockervoyagerlabs/dfproxy:1.7.4 /
+dockervoyagerlabs/dfproxy:1.7.6
+
+-------------------------------------------------------------------------------------------------------------------------
+ # docker compose file 
+ 
+ version: "3.1"
+
+services:
+
+  proxy:
+    image: vfarcic/docker-flow-proxy
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      - default
+    environment:
+      - LISTENER_ADDRESS=swarm-listener
+
+  swarm-listener:
+    image: vfarcic/docker-flow-swarm-listener
+    networks:
+      - default
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - DF_NOTIFY_CREATE_SERVICE_URL=http://proxy:8080/v1/docker-flow-proxy/reconfigure
+      - DF_NOTIFY_REMOVE_SERVICE_URL=http://proxy:8080/v1/docker-flow-proxy/remove
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+
+  ui:
+    image: dockervoyagerlabs/dfproxy:1.7.6
+    ports:
+      - 3333:3333
+    networks:
+      - default
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+      labels:
+        - com.df.distribute=true
+        - com.df.notify=true
+        - com.df.servicePath=/
+        - com.df.port=3333
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - PROXY_HOST_AND_PORT=http://proxy:8080
+
+ networks:
+  default:
+    external: false
 
 
  
