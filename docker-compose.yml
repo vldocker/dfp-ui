@@ -1,0 +1,46 @@
+version: "3.1"
+services:
+  proxy:
+    image: vfarcic/docker-flow-proxy
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      - default
+    environment:
+      - LISTENER_ADDRESS=swarm-listener
+      - STATS_USER=admin
+      - STATS_PASS=admin
+  swarm-listener:
+    image: vfarcic/docker-flow-swarm-listener
+    networks:
+      - default
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - DF_NOTIFY_CREATE_SERVICE_URL=http://proxy:8080/v1/docker-flow-proxy/reconfigure
+      - DF_NOTIFY_REMOVE_SERVICE_URL=http://proxy:8080/v1/docker-flow-proxy/remove
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+  ui:
+    image: dockervoyagerlabs/dfproxy:1.7.4
+    ports:
+      - 3333:3333
+    networks:
+      - default
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+      labels:
+        - com.df.distribute=true
+        - com.df.notify=true
+        - com.df.servicePath=/
+        - com.df.port=3333
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - PROXY_HOST_AND_PORT=http://proxy:8080
+networks:
+  default:
+    external: false
