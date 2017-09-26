@@ -28,11 +28,8 @@ dockervoyagerlabs/dfproxy:1.7.6
 
 -------------------------------------------------------------------------------------------------------------------------
  # docker compose file 
- 
- version: "3.1"
-
+                                                                                                                           version: "3.1"
 services:
-
   proxy:
     image: vfarcic/docker-flow-proxy
     ports:
@@ -42,7 +39,8 @@ services:
       - default
     environment:
       - LISTENER_ADDRESS=swarm-listener
-
+      - STATS_USER=admin
+      - STATS_PASS=admin
   swarm-listener:
     image: vfarcic/docker-flow-swarm-listener
     networks:
@@ -55,9 +53,8 @@ services:
     deploy:
       placement:
         constraints: [node.role == manager]
-
   ui:
-    image: dockervoyagerlabs/dfproxy:1.7.6
+    image: dockervoyagerlabs/dfproxy:1.7.4
     ports:
       - 3333:3333
     networks:
@@ -74,7 +71,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - PROXY_HOST_AND_PORT=http://proxy:8080
-
- networks:
+networks:
   default:
     external: false
+
