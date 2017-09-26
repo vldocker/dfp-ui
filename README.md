@@ -26,7 +26,7 @@ service create --name dfp-ui /
 --env PROXY_HOST_AND_PORT="http://proxy:8080"/ 
 --constraint 'node.role == manager' /
 --mount type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock /
-dockervoyagerlabs/dfproxy:1.7.6
+dockervoyagerlabs/dfproxy:1.7.4
 
 -------------------------------------------------------------------------------------------------------------------------
  # docker compose file 
