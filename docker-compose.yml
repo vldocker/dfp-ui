@@ -1,20 +1,23 @@
 version: "3.1"
+
 services:
+
   proxy:
     image: vfarcic/docker-flow-proxy
     ports:
       - 80:80
       - 443:443
     networks:
-      - default
+      - proxy
     environment:
       - LISTENER_ADDRESS=swarm-listener
       - STATS_USER=admin
       - STATS_PASS=admin
+
   swarm-listener:
     image: vfarcic/docker-flow-swarm-listener
     networks:
-      - default
+      - proxy
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
@@ -25,22 +28,22 @@ services:
         constraints: [node.role == manager]
   ui:
     image: dockervoyagerlabs/dfproxy:1.7.4
-    ports:
-      - 3333:3333
     networks:
-      - default
+      - proxy
     deploy:
       placement:
         constraints: [node.role == manager]
       labels:
         - com.df.distribute=true
         - com.df.notify=true
-        - com.df.servicePath=/
+        - com.df.servicePath=/ui
+        - com.df.reqPathSearch=/ui
         - com.df.port=3333
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - PROXY_HOST_AND_PORT=http://proxy:8080
+
 networks:
-  default:
-    external: false
+  proxy:
+    external: true
