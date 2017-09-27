@@ -2,8 +2,15 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var logger = require('winston');
 
-var index = require('./routes/index');
+
+
+
+var networks = require('./controllers/networks');
+var services = require('./controllers/services');
+var clusterView = require('./controllers/clusterView');
+//var dfpServicesStats = require('./controllers/dfpServicesStats');
 var app = express();
 
 app.use(bodyParser.json());
@@ -11,7 +18,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static("client/build"));
 app.use(cookieParser());
 
-app.use('/', index);
+app.use('/networks', networks);
+app.use('/services', services);
+app.use('/clusterView', clusterView);
+// app.use('/dfpServicesStats', dfpServicesStats);
 
 app.get('*', function(req, res){
   res.sendFile(path.join(__dirname+'/client/build/index.html'));

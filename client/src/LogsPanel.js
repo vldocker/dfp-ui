@@ -5,7 +5,7 @@ class LogsPanel extends Component {
   state = {serviceErrLogs:""}
 
   async componentDidMount() {
-    var api = '/stderr-logs/' + this.props.service;
+    var api = '/services/logs/' + this.props.service;
     fetch(api,{method: 'post',
         body: JSON.stringify})
       .then(res => res.json())

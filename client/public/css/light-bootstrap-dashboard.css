@@ -86,7 +86,8 @@ h6, .h6 {
 p {
   font-size: 14px;
   line-height: 1.5;
- white-space: pre;}
+ white-space: pre;
+margin-left: 8px;}
 
 h1 small, h2 small, h3 small, h4 small, h5 small, h6 small, .h1 small, .h2 small, .h3 small, .h4 small, .h5 small, .h6 small, h1 .small, h2 .small, h3 .small, h4 .small, h5 .small, h6 .small, .h1 .small, .h2 .small, .h3 .small, .h4 .small, .h5 .small, .h6 .small {
   color: #9A9A9A;
@@ -1542,7 +1543,10 @@ body > .navbar-collapse {
   border-radius: 4px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(63, 63, 68, 0.1);
   background-color: #FFFFFF;
-  margin-bottom: 30px; }
+  margin-bottom: 30px;
+  -webkit-box-shadow: 0px 7px 6px -4px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 7px 6px -4px rgba(0,0,0,0.75);
+  box-shadow: 0px 7px 6px -4px rgba(0,0,0,0.75);}
   .card .image {
     width: 100%;
     overflow: hidden;
@@ -1583,7 +1587,10 @@ body > .navbar-collapse {
   .card .content {
     padding: 15px 15px 10px 15px; }
   .card .header {
-    padding: 15px 15px 0; }
+    padding: 15px 15px 0;
+  text-align: -webkit-center;
+border-bottom: black solid 1px;
+margin-bottom: 10px; }
   .card .category,
   .card label {
     font-size: 14px;
@@ -1600,7 +1607,8 @@ body > .navbar-collapse {
   .card .title {
     margin: 0px 0px 7px 0px;
     color: #333333;
-    font-weight: 300; }
+    font-weight: 300;
+  text-align: -webkit-center; }
   .card .avatar {
     width: 30px;
     height: 30px;

@@ -4,8 +4,6 @@ import JSONTree from 'react-json-tree';
 
 
 var colors = {
-  scheme: 'brewer',
-  author: 'timothée poisot (http://github.com/tpoisot)',
   base00: '#FFFFFF',
   base01: '#2e2f30',
   base02: '#515253',
@@ -28,7 +26,7 @@ class ConfPanel extends Component {
   state = {serviceConf: {}};
 
   async componentDidMount() {
-    var api = '/conf/' + this.props.service;
+    var api = '/services/configurations/' + this.props.service;
     fetch(api,   {method: 'post',
         body: JSON.stringify})
       .then(res => res.json())

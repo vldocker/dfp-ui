@@ -8,7 +8,7 @@ import './App.css';
    var options = {
      width: "100%",
          height: "100%",
-         autoResize: true,
+         autoResize: false,
          layout: {
              hierarchical: false
          },
@@ -53,13 +53,13 @@ class GraphView extends Component {
   state = {graph: {nodes:[], edges:[]}}
 
   async componentDidMount() {
-    fetch('/swarm-cluster-graph',
+    fetch('/clusterView',
     {method: 'post',
       body: JSON.stringify})
       .then(res => res.json())
-      .then(updateGraph => {
+      .then(newGraph => {
         var nodes = [];
-        updateGraph.nodes.forEach(function(nodeName){
+        newGraph.nodes.forEach(function(nodeName){
           var node = {};
           node.id = "Services-" + nodeName;
           node.label = nodeName;
@@ -69,7 +69,7 @@ class GraphView extends Component {
           nodes.push(node);
         });
 
-        updateGraph.networks.forEach(function(networkName){
+        newGraph.networks.forEach(function(networkName){
           var node = {};
           node.id = "Networks-" + networkName;
           node.label = networkName;
@@ -78,17 +78,17 @@ class GraphView extends Component {
           node.image = 'share.svg';
           nodes.push(node);
         });
-        var editEdgesObject = [];
-        updateGraph.edges.forEach(function(edge){
+        var editedEdgesObject = [];
+        newGraph.edges.forEach(function(edge){
           var newEdge = {};
           newEdge.from = "Services-" + edge.from;
           newEdge.to = "Networks-" + edge.to;
-          editEdgesObject.push(newEdge);
+          editedEdgesObject.push(newEdge);
         });
-        var newGraph = {};
-        newGraph.nodes = nodes;
-        newGraph.edges = editEdgesObject;
-        this.setState({graph:newGraph});
+        var newGraphToDisplay = {};
+        newGraphToDisplay.nodes = nodes;
+        newGraphToDisplay.edges = editedEdgesObject;
+        this.setState({graph:newGraphToDisplay});
        });
   }
 

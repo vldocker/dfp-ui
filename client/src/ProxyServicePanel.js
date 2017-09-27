@@ -15,7 +15,7 @@ import ConfPanel from './ConfPanel.js';
 import LogsPanel from './LogsPanel.js';
 import StatsPanel from './StatsPanel.js';
 
-class ServicePanel extends Component {
+class ProxyServicePanel extends Component {
   render() {
     return (
       <div className="map">
@@ -69,4 +69,4 @@ class ServicePanel extends Component {
 }
 
 
-export default ServicePanel;
+export default ProxyServicePanel;

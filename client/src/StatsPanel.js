@@ -37,39 +37,31 @@ class StatsPanel extends Component {
   }
 
   render() {
-    console.log(this.state.serviceStats)
 
-    ///TODO CHANGE TO THE REAL DATA
-
-    // <td>{this.state.serviceStats.hrsp_5xx}</td>
-    // </tr>
-    // <tr className="info">
-    // <td>Others</td>
-    // <td>{this.state.serviceStats.hrsp_other}</td>
-    // </tr>
     var data = [
     {x: '200', y: this.state.serviceStats.hrsp_2xx, color:'#5cb678'},
     {x: '400', y: this.state.serviceStats.hrsp_4xx, color:'#e8ac78'},
     {x: '500', y: this.state.serviceStats.hrsp_5xx, color:'#e27168'},
-    {x: 'Others', y: this.state.serviceStats.hrsp_other, color:'#6666ef'}]
+    {x: 'Others', y: this.state.serviceStats.hrsp_other, color:'#6666ef'}];
+
 
     return (
       <Row className="show-grid">
       <Col xs={6} md={6}>
-      <div className="header">
           <h5 className="title"><strong>Response status codes</strong></h5>
+          <div style={{display: 'inline-block', verticalAlign: 'top', paddingLeft: '105px'}}>
+        {this.state.dataDisplay ? this.state.dataDisplay : 'Click on a bar to show the value'}
       </div>
-      <BarChart axisLabels={{x: 'Status Code', y: 'Count'}}
-    margin={{top: 10, right: 100, bottom: 50, left: 60}}
-     axes grid  height={220} width={450} data={data}/>
+      <BarChart margin={{top: 10, right: 100, bottom: 50, left: 60}}
+     axes grid  height={220} width={400} data={data} clickHandler={(d) => this.setState({dataDisplay: `Status code ${d.x} - ${d.y}`})}
+       />
+
       <div id="total-req">
       <h5 className="title"> <strong>Total status code: </strong> {this.state.serviceStats.req_tot}</h5>
       </div>
       </Col>
       <Col xsHidden md={6}>
-      <div className="header">
           <h5 className="title"><strong>Avg over last 1024 success connections</strong></h5>
-      </div>
       <div id="avg-time">
       <p><strong>Queue Time: </strong> {this.state.serviceStats.qtime} ms</p>
       <p><strong>Connect Time: </strong> {this.state.serviceStats.ctime} ms</p>
