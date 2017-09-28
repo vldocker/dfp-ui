@@ -3,17 +3,12 @@ var http = require('http');
 var data = require('../helpers/data.js');
 var request = require('request-promise');
 var utils = require('../helpers/utils.js');
-var proxyHostAndPort = "http://35.160.251.220:8080";
-///process.env.PROXY_HOST_AND_PORT;
-var dockerApiVersion = process.env.DOCKER_API_VERSION;
+var proxyHostAndPort = process.env.PROXY_HOST_AND_PORT;
+
 
 module.exports.getStats = function(service) {
+  logger.info("dfp stats request to service" + service);
   var stats = data.dfpServicesStats.filter(function(element) {
-    console.log(typeof element.svname);
-    console.log(typeof service);
-    console.log( element.svname);
-    console.log( service);
-    console.log( service === element.svname);
     return service === element['svname'];
   })
 

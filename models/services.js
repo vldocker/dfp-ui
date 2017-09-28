@@ -22,12 +22,9 @@ module.exports.getServiceConf = function(service) {
 }
 
 
-
 module.exports.getLogs = function(service) {
   return data.servicesLogs[service];
 }
-
-
 
 function updateServicesConf() {
   let options = {
@@ -90,8 +87,9 @@ function updateServicesLogs() {
 
 setInterval(function() {
 
-//  updateServicesConf();
-//  updateServicesLogs();
+ updateServicesConf();
+ updateServicesLogs();
+
 
 
 }, 10000);

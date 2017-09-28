@@ -18,9 +18,7 @@ module.exports.getNetworks = function() {
 
 
 module.exports.getNetwork = function(network) {
-  console.log(data);
   var networkConf = data.networks.filter(function(element) {
-    console.log(element);
     return element["Name"] === network;
   })
   return networkConf;
@@ -56,7 +54,8 @@ function updateNetworks() {
 
 setInterval(function() {
 
- //updateNetworks();
+ updateNetworks();
+
 
 
 }, 10000);

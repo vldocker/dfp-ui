@@ -15,9 +15,9 @@ in hence we build a tool using react+nodejs on top of the swarm cluster that wil
  # requirements:
 
 [Docker Flow Proxy](http://proxy.dockerflow.com/) up and running with environment variables `STATS_USER` and `STATS_PASS`
- 
+
 -------------------------------------------------------------------------------------------------------------------------
- # A Docker Service is created with the following syntax: 
+ # A Docker Service is created with the following syntax:
 
 The command that follows assumes that [Docker Flow Proxy](http://proxy.dockerflow.com/) is attached to the network `proxy` and that the name of the service is `proxy`. Please change `--network` and `--env` values if proxy is using a different network or the service is created with a different name.
 
@@ -28,12 +28,12 @@ service create --name dfp-ui /
     --env PROXY_HOST_AND_PORT="http://proxy:8080"/
     --constraint 'node.role == manager' /
     --mount type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock /
-    dockervoyagerlabs/dfproxy:1.7.4
+    dockervoyagerlabs/dfproxy:1.7.5
 ```
 
 -------------------------------------------------------------------------------------------------------------------------
  # docker compose file
-                                                                                                                           
+
 docker stack deploy --compose-file docker-compose.yml dfpui  
 
 # Demo

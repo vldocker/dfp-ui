@@ -27,7 +27,7 @@ services:
       placement:
         constraints: [node.role == manager]
   ui:
-    image: dockervoyagerlabs/dfproxy:1.7.4
+    image: dockervoyagerlabs/dfproxy:1.7.5
     networks:
       - proxy
     deploy:

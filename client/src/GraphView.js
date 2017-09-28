@@ -34,7 +34,6 @@ function setNetworkInstance(nw){
 
 var event = {
   selectNode: function(event) {
-    ///var
   var panelType = "";
     if(event.nodes[0].indexOf("Services") != -1){
       panelType = "/service-panel/";
@@ -53,7 +52,7 @@ class GraphView extends Component {
   state = {graph: {nodes:[], edges:[]}}
 
   async componentDidMount() {
-    fetch('/clusterView/',
+    fetch('/clusterView',
     {method: 'post',
       body: JSON.stringify})
       .then(res => res.json())

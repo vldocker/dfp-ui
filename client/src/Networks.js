@@ -19,7 +19,7 @@ class Networks extends Component {
   state = {clusterNetworks:[]}
 
   async componentDidMount() {
-    var api = '/networks/';
+    var api = '/networks';
     fetch(api,{method: 'post',
         body: JSON.stringify})
       .then(res => res.json())
