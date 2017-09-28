@@ -35,16 +35,16 @@ function setNetworkInstance(nw){
 var event = {
   selectNode: function(event) {
     ///var
-  var typePanelPath = "";
+  var panelType = "";
     if(event.nodes[0].indexOf("Services") != -1){
-      typePanelPath = "/service-panel/";
+      panelType = "/service-panel/";
 
     }
     else{
-      typePanelPath = "/network-panel/";
+      panelType = "/network-panel/";
     }
 
-    window.location.href = window.location.origin + typePanelPath + event.nodes[0].substring(9,event.nodes[0].length);
+    window.location.href = window.location.origin + panelType + event.nodes[0].substring(9,event.nodes[0].length);
   }
 
 }
@@ -53,7 +53,7 @@ class GraphView extends Component {
   state = {graph: {nodes:[], edges:[]}}
 
   async componentDidMount() {
-    fetch('/clusterView',
+    fetch('/clusterView/',
     {method: 'post',
       body: JSON.stringify})
       .then(res => res.json())

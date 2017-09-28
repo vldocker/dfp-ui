@@ -1,20 +1,29 @@
+var logger = require('winston');
+var http = require('http');
+var data = require('../helpers/data.js');
+var request = require('request-promise');
 var utils = require('../helpers/utils.js');
-
-var proxyHostAndPort = process.env.PROXY_HOST_AND_PORT;
+var proxyHostAndPort = "http://35.160.251.220:8080";
+///process.env.PROXY_HOST_AND_PORT;
 var dockerApiVersion = process.env.DOCKER_API_VERSION;
 
 module.exports.getStats = function(service) {
-  var stats = servicesStats.filter(function(element) {
+  var stats = data.dfpServicesStats.filter(function(element) {
+    console.log(typeof element.svname);
+    console.log(typeof service);
+    console.log( element.svname);
+    console.log( service);
+    console.log( service === element.svname);
     return service === element['svname'];
   })
 
-  return stats;
+  return stats.pop();
 
 }
 
-module.exports.getProxyServices = function() {
+module.exports.getServices = function() {
 
-  return proxyServices;
+  return data.dfpServices;
 }
 
 
@@ -29,7 +38,7 @@ function updateFlowProxyServices() {
       setProxyServices(data);
     })
     .catch((err) => {
-      console.log(err)
+      logger.error("Error while trying to get HAProxy services configurations from docker-flow-proxy Api\n" + err);
     })
 }
 
@@ -77,31 +86,31 @@ function updateServicesStats() {
     })
     .then((data) => {
       var jsonString = utils.csvJSON(data);
-      var jsonData = JSON.parse(csvJSON(data));
+      var jsonData = JSON.parse(utils.csvJSON(data));
       var arrayData = Object.keys(jsonData).map(function(key) {
         return jsonData[key];
       });
       aggregateServicesStats(arrayData);
     })
     .catch((err) => {
-      console.log(err)
+        logger.error("Error while trying to get HAProxy services stats from docker-flow-proxy Api\n" +  err);
     })
 }
 
 
 
-function aggregateServicesStats(data) {
+function aggregateServicesStats(servicesStats) {
   var updatedStats = [];
-  var proxyNames = getPropertyValues('# pxname', data);
+  var proxyNames = utils.getPropertyValues('# pxname', servicesStats);
   proxyNames.splice(proxyNames.length - 2, 2);
-  var servicesNames = getPropertyValues('svname', data);
+  var servicesNames = utils.getPropertyValues('svname', servicesStats);
   servicesNames.splice(servicesNames.length - 2, 2);
 
   ///aggregated by proxyName
   servicesNames.forEach(function(name) {
     var totalService = getEmptyStatsObj();
     totalService['svname'] = name;
-    var filteredServiceStats = data.filter(function(element) {
+    var filteredServiceStats = servicesStats.filter(function(element) {
       return element['svname'] === name && element['svname'] !== 'BACKEND' && element['svname'] !== 'FRONTEND';
 
     });
@@ -127,14 +136,15 @@ function aggregateServicesStats(data) {
     updatedStats.push(totalService);
   });
 
-  servicesStats = updatedStats;
+  data.dfpServices = proxyNames;
+  data.dfpServicesStats = updatedStats;
+
+
 }
 
 
 
 setInterval(function() {
-
   updateServicesStats();
-
 
 }, 10000);

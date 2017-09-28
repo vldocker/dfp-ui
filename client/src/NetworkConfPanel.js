@@ -28,7 +28,7 @@ class NetworkConfPanel extends Component {
   state = {serviceConf: {}};
 
   async componentDidMount() {
-    var api = '/networks/' + this.props.service;
+    var api = '/networks/configurations/' + this.props.service;
     fetch(api,   {method: 'post',
         body: JSON.stringify})
       .then(res => res.json())

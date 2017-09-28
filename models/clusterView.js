@@ -1,9 +1,10 @@
 var utils = require('../helpers/utils.js');
 var data = require('../helpers/data.js');
-
+var logger = require('winston');
 
 
 module.exports.getClusterView = function() {
+  logger.info("cluster view model request");
   return data.graphResponse;
 }
 
@@ -13,7 +14,7 @@ function updateClusterView() {
   var mapNetworkIdToNetworkName = [];
   var nodeToNetwork = [];
   var nodesNames = [];
-   if(data.networks.length > 0 && data.services.length > 0){
+   if(data.networks.length > 0 && data.servicesConf.length > 0){
 
      var networks = data.networks;
      var servicesConf = data.servicesConf;

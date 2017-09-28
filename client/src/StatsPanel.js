@@ -26,24 +26,22 @@ class StatsPanel extends Component {
   state = {serviceStats:statsObj}
 
   async componentDidMount() {
-    var api = '/stats/' + this.props.service;
+    var api = '/dfpServices/stats/' + this.props.service;
     fetch(api,   {method: 'post',
         body: JSON.stringify})
       .then(res => res.json())
       .then(stats => {
         console.log(stats);
-        this.setState({serviceStats:stats[0]});
+        this.setState({serviceStats:stats});
        });
   }
 
   render() {
-
     var data = [
     {x: '200', y: this.state.serviceStats.hrsp_2xx, color:'#5cb678'},
     {x: '400', y: this.state.serviceStats.hrsp_4xx, color:'#e8ac78'},
     {x: '500', y: this.state.serviceStats.hrsp_5xx, color:'#e27168'},
     {x: 'Others', y: this.state.serviceStats.hrsp_other, color:'#6666ef'}];
-
 
     return (
       <Row className="show-grid">

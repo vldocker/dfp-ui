@@ -90,8 +90,8 @@ function updateServicesLogs() {
 
 setInterval(function() {
 
-  updateServicesConf();
-  updateServicesLogs();
+//  updateServicesConf();
+//  updateServicesLogs();
 
 
 }, 10000);

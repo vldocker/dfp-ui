@@ -10,20 +10,22 @@ var logger = require('winston');
 var networks = require('./controllers/networks');
 var services = require('./controllers/services');
 var clusterView = require('./controllers/clusterView');
-//var dfpServicesStats = require('./controllers/dfpServicesStats');
+var dfpServices = require('./controllers/dfpServices');
 var app = express();
 
+
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("client/build"));
 app.use(cookieParser());
-
+app.use('/dfpServices', dfpServices);
 app.use('/networks', networks);
 app.use('/services', services);
 app.use('/clusterView', clusterView);
-// app.use('/dfpServicesStats', dfpServicesStats);
 
-app.get('*', function(req, res){
+
+app.get('/*', function(req, res){
+  logger.info("GET  " + req.url);
   res.sendFile(path.join(__dirname+'/client/build/index.html'));
 });
 
@@ -42,7 +44,8 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  logger.error(err);
+  res.send('error');
 });
 
 module.exports = app;

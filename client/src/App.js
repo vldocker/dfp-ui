@@ -19,7 +19,7 @@ class App extends React.Component {
     return (
       <Router>
         <Switch>
-          <Route path="/cluster-view" component={GraphView} />
+          <Route path="/clusterView" component={GraphView} />
           <Route path="/service-panel/:name" component={ServicePanel} />
           <Route path="/network-panel/:name" component={NetworkPanel} />
           <Route path="/networks" component={Networks} />

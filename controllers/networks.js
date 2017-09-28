@@ -12,7 +12,7 @@ router.post('/', function(req, res, next) {
 //TODO
 /* returns network object*/
 router.post('/configurations/:network', function(req, res, next) {
-  res.json(networksModel.getNetworkConf(req.params.network));
+  res.json(networksModel.getNetwork(req.params.network));
 });
 
 
