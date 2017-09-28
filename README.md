@@ -71,3 +71,15 @@ open "http://localhost/ui"
 ```
 
 Observe that the new services can be explored though the UI.
+
+
+## TODO
+
+- [ ] Check Warnings and errors on the client side
+- [ ] Support for clusterView by cluster hosts
+- [ ] Client side re-factoring
+- [ ] Change all the docker api calls to use swarmrode (https://www.npmjs.com/package/swarmerode)
+- [ ] Display HAProxy stats just to proxy services
+- [ ] Add filter in logs panel to display stdrr and stdout logs
+- [ ] Renaming
+ 
