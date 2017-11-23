@@ -6,18 +6,16 @@ var utils = require('../helpers/utils.js');
 var proxyHostAndPort = process.env.PROXY_HOST_AND_PORT;
 
 
-module.exports.getStats = function(service) {
+const getStats = function(service) {
   logger.info("dfp stats request to service" + service);
   var stats = data.dfpServicesStats.filter(function(element) {
     return service === element['svname'];
   })
 
   return stats.pop();
-
 }
 
-module.exports.getServices = function() {
-
+const getServices = function() {
   return data.dfpServices;
 }
 
@@ -137,9 +135,12 @@ function aggregateServicesStats(servicesStats) {
 
 }
 
+module.exports = {
+  getStats,
+  getServices
+}
 
-
-setInterval(function() {
+/*setInterval(function() {
   updateServicesStats();
 
-}, 10000);
+}, 10000);*/

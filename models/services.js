@@ -3,7 +3,7 @@ var http = require('http');
 
 const dockerSocketPath = '/var/run/docker.sock';
 
-module.exports.getServices = function() {
+const getServices = function() {
 
   var servicesNames = [];
   data.servicesConf.forEach(function(element) {
@@ -13,7 +13,7 @@ module.exports.getServices = function() {
   return servicesNames;
 }
 
-module.exports.getServiceConf = function(service) {
+const getServiceConf = function(service) {
   var conf = data.servicesConf.filter(function(element) {
     return service === element["Spec"]["Name"];
   })
@@ -21,8 +21,7 @@ module.exports.getServiceConf = function(service) {
   return conf;
 }
 
-
-module.exports.getLogs = function(service) {
+const getLogs = function(service) {
   return data.servicesLogs[service];
 }
 
@@ -50,8 +49,6 @@ function updateServicesConf() {
   });
   clientRequest.end();
 }
-
-
 
 function updateServicesLogs() {
 
@@ -82,14 +79,17 @@ function updateServicesLogs() {
 
 }
 
-
-
-
-setInterval(function() {
+/*setInterval(function() {
 
  updateServicesConf();
  updateServicesLogs();
 
 
 
-}, 10000);
+}, 10000);*/
+
+module.exports = {
+  getServices,
+  getServiceConf,
+  getLogs
+}

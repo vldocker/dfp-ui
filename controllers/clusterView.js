@@ -8,5 +8,4 @@ router.post('/', function(req, res, next) {
   res.send(clusterViewModel.getClusterView());
 });
 
-
 module.exports = router;

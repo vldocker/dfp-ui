@@ -6,25 +6,20 @@ var utils = require('../helpers/utils.js');
 
 const dockerSocketPath = '/var/run/docker.sock';
 
-module.exports.getNetworks = function() {
-
+const getNetworks = function() {
   var networksNames = [];
   data.networks.forEach(function(element) {
     networksNames.push(element["Name"]);
   });
   return networksNames;
-
 }
 
-
-module.exports.getNetwork = function(network) {
+const getNetwork = function(network) {
   var networkConf = data.networks.filter(function(element) {
     return element["Name"] === network;
   })
   return networkConf;
-
 }
-
 
 function updateNetworks() {
   let options = {
@@ -48,14 +43,18 @@ function updateNetworks() {
     logger.error(e);
   });
   clientRequest.end();
-
 }
 
 
-setInterval(function() {
+/*setInterval(function() {
 
  updateNetworks();
 
 
 
-}, 10000);
+}, 10000);*/
+
+module.exports = {
+  getNetworks,
+  getNetwork
+}

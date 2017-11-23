@@ -2,7 +2,6 @@ var express = require('express');
 var networksModel = require('../models/networks.js');
 var router = express.Router();
 
-
 /* returns array of all the networks in the cluster*/
 router.post('/', function(req, res, next) {
 
@@ -14,13 +13,5 @@ router.post('/', function(req, res, next) {
 router.post('/configurations/:network', function(req, res, next) {
   res.json(networksModel.getNetwork(req.params.network));
 });
-
-
-
-
-
-
-
-
 
 module.exports = router;

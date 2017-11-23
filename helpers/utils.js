@@ -1,5 +1,4 @@
-
-module.exports.contains = function(array, value) {
+const contains = function(array, value) {
   for (var i = 0; i < array.length; i++) {
     if (array[i] === value) {
       return true;
@@ -8,8 +7,7 @@ module.exports.contains = function(array, value) {
   return false;
 }
 
-
-module.exports.csvJSON = function(csv) {
+const csvJSON = function(csv) {
   var lines = csv.split("\n");
   var result = [];
   var headers = lines[0].split(",");
@@ -25,8 +23,7 @@ module.exports.csvJSON = function(csv) {
   return JSON.stringify(result);
 }
 
-
-module.exports.getPropertyValues = function(property, jsonObj) {
+const getPropertyValues = function(property, jsonObj) {
   var values = [];
   for (var i = 0; i < jsonObj.length; i++) {
     values.push(jsonObj[i][property]);
@@ -35,14 +32,19 @@ module.exports.getPropertyValues = function(property, jsonObj) {
   return Array.from(new Set(values));
 }
 
-
- module.exports.stdoutToJson = function(stdout) {
+const stdoutToJson = function(stdout) {
   var stdoutStr = stdout.toString()
   var confObjIdx = stdoutStr.indexOf('[');
   var confObj = stdoutStr.substr(confObjIdx);
-
   var jsonStr = JSON.stringify(confObj);
   var jsonObj = JSON.parse(jsonStr);
-  return eval(jsonObj);
 
+  return eval(jsonObj);
+}
+
+module.exports = {
+  contains,
+  csvJSON,
+  getPropertyValues,
+  stdoutToJson
 }

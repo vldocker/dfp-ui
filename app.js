@@ -3,27 +3,25 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var logger = require('winston');
-
-
-
-
 var networks = require('./controllers/networks');
 var services = require('./controllers/services');
 var clusterView = require('./controllers/clusterView');
 var dfpServices = require('./controllers/dfpServices');
 var app = express();
 
-
+/* Middleware */
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("client/build"));
 app.use(cookieParser());
+
+/* Routes */
 app.use('/dfpServices', dfpServices);
 app.use('/networks', networks);
 app.use('/services', services);
 app.use('/clusterView', clusterView);
 
-
+/* Frontend redirections */
 app.get('/*', function(req, res){
   logger.info("GET  " + req.url);
   res.sendFile(path.join(__dirname+'/client/build/index.html'));
