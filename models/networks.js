@@ -46,13 +46,13 @@ function updateNetworks() {
 }
 
 
-/*setInterval(function() {
+setInterval(function() {
 
  updateNetworks();
 
 
 
-}, 10000);*/
+}, 10000);
 
 module.exports = {
   getNetworks,

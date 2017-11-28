@@ -1,7 +1,7 @@
 
 import React, { Component } from 'react';
 import JSONTree from 'react-json-tree';
-
+import axios from 'axios';
 
 var colors = {
   base00: '#FFFFFF',
@@ -23,22 +23,31 @@ var colors = {
 };
 
 class ConfPanel extends Component {
-  state = {serviceConf: {}};
-
-  async componentDidMount() {
-    var api = '/services/configurations/' + this.props.service;
-    fetch(api,   {method: 'post',
-        body: JSON.stringify})
-      .then(res => res.json())
-      .then(conf => {
-        this.setState({serviceConf:conf[0]});
-       });
+  constructor() {
+    super();
+    this.state = {
+      serviceConf: {}
+    }
   }
-
+  componentDidMount() {
+    this.fetchServiceConfiguration();
+  }
+  fetchServiceConfiguration() {
+    let api = '/services/configurations/' + this.props.service;
+    axios.post(api)
+    .then(res => {
+      this.setState({
+        serviceConf: res.data
+      });
+    })
+    .catch(err => {
+      // TODO: Add normal exception handlers
+      console.log(err)
+    });
+  }
   render() {
     return (
       <JSONTree data={this.state.serviceConf} invertTheme={false} theme={colors}></JSONTree>
-
     );
   }
 }

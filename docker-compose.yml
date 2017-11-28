@@ -13,7 +13,7 @@ services:
       - LISTENER_ADDRESS=swarm-listener
       - STATS_USER=admin
       - STATS_PASS=admin
-
+      
   swarm-listener:
     image: vfarcic/docker-flow-swarm-listener
     networks:

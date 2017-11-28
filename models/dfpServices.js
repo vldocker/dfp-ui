@@ -5,21 +5,18 @@ var request = require('request-promise');
 var utils = require('../helpers/utils.js');
 var proxyHostAndPort = process.env.PROXY_HOST_AND_PORT;
 
-
 const getStats = function(service) {
   logger.info("dfp stats request to service" + service);
   var stats = data.dfpServicesStats.filter(function(element) {
     return service === element['svname'];
   })
-
+  
   return stats.pop();
 }
 
 const getServices = function() {
   return data.dfpServices;
 }
-
-
 
 function updateFlowProxyServices() {
   var api = proxyHostAndPort + '/v1/docker-flow-proxy/config?type=json';
@@ -35,7 +32,6 @@ function updateFlowProxyServices() {
     })
 }
 
-
 function setProxyServices(unFilteredConf) {
   var services = [];
   var proxyServicesList = [];
@@ -46,10 +42,8 @@ function setProxyServices(unFilteredConf) {
 
 }
 
-
-
-function getEmptyStatsObj() {
-  var emptyStatsObj = {
+function statsObject() {
+  return {
     svname: "",
     bin: 0,
     bout: 0,
@@ -65,11 +59,7 @@ function getEmptyStatsObj() {
     rtime: 0,
     ttime: 0
   };
-
-  return emptyStatsObj;
-
 }
-
 
 function updateServicesStats() {
   var api = proxyHostAndPort + '/v1/docker-flow-proxy/metrics?distribute=true';
@@ -90,8 +80,6 @@ function updateServicesStats() {
     })
 }
 
-
-
 function aggregateServicesStats(servicesStats) {
   var updatedStats = [];
   var proxyNames = utils.getPropertyValues('# pxname', servicesStats);
@@ -101,7 +89,7 @@ function aggregateServicesStats(servicesStats) {
 
   ///aggregated by proxyName
   servicesNames.forEach(function(name) {
-    var totalService = getEmptyStatsObj();
+    var totalService = statsObject();
     totalService['svname'] = name;
     var filteredServiceStats = servicesStats.filter(function(element) {
       return element['svname'] === name && element['svname'] !== 'BACKEND' && element['svname'] !== 'FRONTEND';
@@ -128,11 +116,8 @@ function aggregateServicesStats(servicesStats) {
     }
     updatedStats.push(totalService);
   });
-
   data.dfpServices = proxyNames;
   data.dfpServicesStats = updatedStats;
-
-
 }
 
 module.exports = {
@@ -140,7 +125,6 @@ module.exports = {
   getServices
 }
 
-/*setInterval(function() {
+setInterval(function() {
   updateServicesStats();
-
-}, 10000);*/
+}, 10000);

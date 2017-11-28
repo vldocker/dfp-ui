@@ -21,7 +21,6 @@
     "request": "^2.81.0",
     "request-promise": "^4.2.1",
     "serve-favicon": "~2.4.2",
-    "swarmerode": "^3.1.0",
     "winston": "^2.3.1"
   }
 }

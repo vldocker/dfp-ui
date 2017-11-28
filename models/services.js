@@ -4,7 +4,6 @@ var http = require('http');
 const dockerSocketPath = '/var/run/docker.sock';
 
 const getServices = function() {
-
   var servicesNames = [];
   data.servicesConf.forEach(function(element) {
     servicesNames.push(element["Spec"]["Name"]);
@@ -36,6 +35,7 @@ function updateServicesConf() {
     let rawData = '';
     res.on('data', (chunk) => {
       rawData += chunk;
+      console.log(chunk);
     });
     res.on('end', () => {
       const parsedData = JSON.parse(rawData);
@@ -51,9 +51,7 @@ function updateServicesConf() {
 }
 
 function updateServicesLogs() {
-
   data.servicesConf.forEach(service => {
-
     let options = {
       socketPath: dockerSocketPath,
       path: 'http://v1.29/services/' + service["ID"] + '/logs?stderr=true&stdout=true&timestamps=true&tail=200',
@@ -67,26 +65,23 @@ function updateServicesLogs() {
       });
       res.on('end', () => {
         data.servicesLogs[service["Spec"]["Name"]] = rawData;
-
       });
     });
     clientRequest.on('error', (e) => {
       console.log("Error in get logs " + e);
     });
     clientRequest.end();
-
   });
-
 }
 
-/*setInterval(function() {
+setInterval(function() {
 
  updateServicesConf();
  updateServicesLogs();
 
 
 
-}, 10000);*/
+}, 10000);
 
 module.exports = {
   getServices,

@@ -7,6 +7,7 @@ var networks = require('./controllers/networks');
 var services = require('./controllers/services');
 var clusterView = require('./controllers/clusterView');
 var dfpServices = require('./controllers/dfpServices');
+var test = require('./controllers/test');
 var app = express();
 
 /* Middleware */
@@ -20,11 +21,12 @@ app.use('/dfpServices', dfpServices);
 app.use('/networks', networks);
 app.use('/services', services);
 app.use('/clusterView', clusterView);
+app.use('/test', test);
 
 /* Frontend redirections */
 app.get('/*', function(req, res){
   logger.info("GET  " + req.url);
-  res.sendFile(path.join(__dirname+'/client/build/index.html'));
+  res.sendFile(path.join(__dirname+'/client/public/index.html'));
 });
 
 // catch 404 and forward to error handler

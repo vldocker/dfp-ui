@@ -2,9 +2,9 @@
 import React, { Component } from 'react';
 import { Panel, ListGroup, ListGroupItem, Col, Row, Table, Accordion } from 'react-bootstrap';
 import {BarChart} from 'react-easy-chart';
+import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
-
 
 var statsObj = {
     bin: 0,
@@ -20,20 +20,32 @@ var statsObj = {
     ctime: 0,
     rtime: 0,
     ttime: 0
-     };
+};
 
 class StatsPanel extends Component {
-  state = {serviceStats:statsObj}
+  constructor() {
+    super();
+    this.state = {
+      serviceStats: statsObj
+    }
+  }
 
-  async componentDidMount() {
-    var api = '/dfpServices/stats/' + this.props.service;
-    fetch(api,   {method: 'post',
-        body: JSON.stringify})
-      .then(res => res.json())
-      .then(stats => {
-        console.log(stats);
-        this.setState({serviceStats:stats});
-       });
+  componentDidMount() {
+    this.fetchDfpServiceStats()
+  }
+
+  fetchDfpServiceStats() {
+    let api = '/dfpServices/stats/' + this.props.service;
+    axios.post(api)
+    .then(res => {
+      this.setState({
+        serviceStats: res.data
+      });
+    })
+    .catch(err => {
+      // TODO: Add normal exception handlers
+      console.log(err)
+    });
   }
 
   render() {
@@ -74,7 +86,6 @@ class StatsPanel extends Component {
       </Col>
 
       </Row>
-
     );
   }
 }

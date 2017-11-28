@@ -8,7 +8,12 @@ router.post('/', function(req, res, next) {
 });
 
 router.post('/stats/:service', function(req, res, next) {
-  res.json(dfpServicesModel.getStats(req.params.service));
+  let serviceStats = dfpServicesModel.getStats(req.params.service);
+  if (!serviceStats) {
+    res.json([]);
+  }
+  res.json(serviceStats);
+  return;
 });
 
 module.exports = router;

@@ -52,12 +52,9 @@ function updateClusterView() {
 }
 }
 
-/*setInterval(function() {
-
+setInterval(function() {
   updateClusterView();
-
-
-}, 15000);*/
+}, 15000);
 
 module.exports = {
   getClusterView
