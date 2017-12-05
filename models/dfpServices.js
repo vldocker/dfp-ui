@@ -79,14 +79,13 @@ function aggregateServicesStats(servicesStats) {
   proxyNames.splice(proxyNames.length - 2, 2);
   var servicesNames = utils.getPropertyValues('svname', servicesStats);
   servicesNames.splice(servicesNames.length - 2, 2);
-
+ 
   ///aggregated by proxyName
   servicesNames.forEach(function(name) {
     var totalService = statsObject();
     totalService['svname'] = name;
     var filteredServiceStats = servicesStats.filter(function(element) {
       return element['svname'] === name && element['svname'] !== 'BACKEND' && element['svname'] !== 'FRONTEND';
-
     });
 
     if (filteredServiceStats.length > 0) {
