@@ -1,7 +1,17 @@
-module.exports.networks = [];
-module.exports.servicesConf = [];
-module.exports.services = [];
-module.exports.servicesLogs = [];
-module.exports.dfpServicesStats = [];
-module.exports.dfpServices = [];
-module.exports.graphResponse = {};
+var networks = [];
+var servicesConf = [];
+var services = [];
+var servicesLogs = [];
+var dfpServicesStats = [];
+var dfpServices = [];
+var graphResponse = {};
+
+module.exports = {
+    networks,
+    servicesConf,
+    services,
+    servicesLogs,
+    dfpServicesStats,
+    dfpServices,
+    graphResponse
+}

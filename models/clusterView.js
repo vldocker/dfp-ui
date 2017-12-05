@@ -3,7 +3,7 @@ var data = require('../helpers/data.js');
 var logger = require('winston');
 
 
-module.exports.getClusterView = function() {
+const getClusterView = function() {
   logger.info("cluster view model request");
   return data.graphResponse;
 }
@@ -52,11 +52,10 @@ function updateClusterView() {
 }
 }
 
-
-
 setInterval(function() {
-
   updateClusterView();
-
-
 }, 15000);
+
+module.exports = {
+  getClusterView
+}

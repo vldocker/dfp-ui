@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   BrowserRouter as Router,
   Route,
+  Redirect,
   Switch,
   Link
 } from 'react-router-dom';
@@ -24,6 +25,7 @@ class App extends React.Component {
           <Route path="/network-panel/:name" component={NetworkPanel} />
           <Route path="/networks" component={Networks} />
           <Route path="/services" component={Services} />
+          <Redirect from="/" to="clusterView" />
         </Switch>
       </Router>
 

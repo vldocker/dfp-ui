@@ -1,61 +1,44 @@
 var logger = require('winston');
-var http = require('http');
 var data = require('../helpers/data.js');
 var utils = require('../helpers/utils.js');
-
+var Docker = require('dockerode');
 
 const dockerSocketPath = '/var/run/docker.sock';
+const docker = new Docker({
+  socketPath: dockerSocketPath,
+  version: 'v1.30'
+});
 
-module.exports.getNetworks = function() {
 
+const getNetworks = function() {
   var networksNames = [];
   data.networks.forEach(function(element) {
     networksNames.push(element["Name"]);
   });
   return networksNames;
-
 }
 
-
-module.exports.getNetwork = function(network) {
+const getNetwork = function(network) {
   var networkConf = data.networks.filter(function(element) {
     return element["Name"] === network;
   })
   return networkConf;
-
 }
-
 
 function updateNetworks() {
-  let options = {
-    socketPath: dockerSocketPath,
-    path: `/v1.29/networks`,
-    method: 'GET'
-  };
-  let clientRequest = http.request(options, (res) => {
-    res.setEncoding('utf8');
-    let rawData = '';
-    res.on('data', (chunk) => {
-      rawData += chunk;
-    });
-    res.on('end', () => {
-      const parsedData = JSON.parse(rawData);
-      data.networks = eval(parsedData);
-
-    });
-  });
-  clientRequest.on('error', (e) => {
-    logger.error(e);
-  });
-  clientRequest.end();
-
+  docker.listNetworks((err, networks) => {
+    if (err) {
+      console.log(err)
+    }
+    data.networks = networks
+  })
 }
 
-
 setInterval(function() {
-
- updateNetworks();
-
-
-
+  updateNetworks();
 }, 10000);
+
+module.exports = {
+  getNetworks,
+  getNetwork
+}

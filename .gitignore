@@ -1,2 +1,7 @@
 /.idea
 /*.iml
+node_modules
+snippets
+**/node_modules
+.vscode
+**/.vscode

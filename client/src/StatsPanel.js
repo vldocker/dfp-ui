@@ -2,9 +2,9 @@
 import React, { Component } from 'react';
 import { Panel, ListGroup, ListGroupItem, Col, Row, Table, Accordion } from 'react-bootstrap';
 import {BarChart} from 'react-easy-chart';
+import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
-
 
 var statsObj = {
     bin: 0,
@@ -20,20 +20,32 @@ var statsObj = {
     ctime: 0,
     rtime: 0,
     ttime: 0
-     };
+};
 
 class StatsPanel extends Component {
-  state = {serviceStats:statsObj}
+  constructor() {
+    super();
+    this.state = {
+      serviceStats: statsObj
+    }
+  }
 
-  async componentDidMount() {
-    var api = '/dfpServices/stats/' + this.props.service;
-    fetch(api,   {method: 'post',
-        body: JSON.stringify})
-      .then(res => res.json())
-      .then(stats => {
-        console.log(stats);
-        this.setState({serviceStats:stats});
-       });
+  componentDidMount() {
+    this.fetchDfpServiceStats()
+  }
+
+  fetchDfpServiceStats() {
+    let api = '/dfpServices/stats/' + this.props.service;
+    axios.post(api)
+    .then(res => {
+      this.setState({
+        serviceStats: res.data
+      });
+    })
+    .catch(err => {
+      // TODO: Add normal exception handlers
+      console.log(err)
+    });
   }
 
   render() {
@@ -45,36 +57,31 @@ class StatsPanel extends Component {
 
     return (
       <Row className="show-grid">
-      <Col xs={6} md={6}>
+        <Col xs={6} md={6}>
           <h5 className="title"><strong>Response status codes</strong></h5>
           <div style={{display: 'inline-block', verticalAlign: 'top', paddingLeft: '105px'}}>
-        {this.state.dataDisplay ? this.state.dataDisplay : 'Click on a bar to show the value'}
-      </div>
-      <BarChart margin={{top: 10, right: 100, bottom: 50, left: 60}}
-     axes grid  height={220} width={400} data={data} clickHandler={(d) => this.setState({dataDisplay: `Status code ${d.x} - ${d.y}`})}
-       />
-
-      <div id="total-req">
-      <h5 className="title"> <strong>Total status code: </strong> {this.state.serviceStats.req_tot}</h5>
-      </div>
-      </Col>
-      <Col xsHidden md={6}>
-          <h5 className="title"><strong>Avg over last 1024 success connections</strong></h5>
-      <div id="avg-time">
-      <p><strong>Queue Time: </strong> {this.state.serviceStats.qtime} ms</p>
-      <p><strong>Connect Time: </strong> {this.state.serviceStats.ctime} ms</p>
-      <p><strong>Response Time: </strong> {this.state.serviceStats.rtime} ms</p>
-      <p><strong>Total Time: </strong> {this.state.serviceStats.ttime} ms</p>
-      <br/>
-        <h5 className="title"><strong>Bytes</strong></h5>
-      <p><strong>In: </strong> {this.state.serviceStats.bin} </p>
-      <p><strong>Out: </strong> {this.state.serviceStats.bout} </p>
-      </div>
-
-      </Col>
-
+            {this.state.dataDisplay ? this.state.dataDisplay : 'Click on a bar to show the value'}
+          </div>
+          <BarChart margin={{top: 10, right: 100, bottom: 50, left: 60}}
+                    axes grid  height={220} width={400} data={data} clickHandler={(d) => this.setState({dataDisplay: `Status code ${d.x} - ${d.y}`})}/>
+          <div id="total-req">
+            <h5 className="title"> <strong>Total Responses: </strong> {this.state.serviceStats.req_tot}</h5>
+          </div>
+        </Col>
+        <Col xsHidden md={6}>
+          <h5 className="title"><strong>Avg over last 1024 successful connections</strong></h5>
+          <div id="avg-time">
+            <p><strong>Queue Time: </strong> {this.state.serviceStats.qtime} ms</p>
+            <p><strong>Connection Time: </strong> {this.state.serviceStats.ctime} ms</p>
+            <p><strong>Response Time: </strong> {this.state.serviceStats.rtime} ms</p>
+            <p><strong>Total Time: </strong> {this.state.serviceStats.ttime} ms</p>
+            <br/>
+            <h5 className="title"><strong>Bytes</strong></h5>
+            <p><strong>In: </strong> {this.state.serviceStats.bin} </p>
+            <p><strong>Out: </strong> {this.state.serviceStats.bout} </p>
+          </div>
+        </Col>
       </Row>
-
     );
   }
 }

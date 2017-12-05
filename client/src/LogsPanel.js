@@ -1,23 +1,34 @@
 
 import React, { Component } from 'react';
+import axios from 'axios';
 
 class LogsPanel extends Component {
-  state = {serviceErrLogs:""}
-
-  async componentDidMount() {
-    var api = '/services/logs/' + this.props.service;
-    fetch(api,{method: 'post',
-        body: JSON.stringify})
-      .then(res => res.json())
-      .then(logs => {
-        this.setState({serviceErrLogs:logs});
-       });
+  
+  constructor() {
+    super();
+    this.state = {
+      serviceErrLogs : ""
+    };
   }
-
+  componentDidMount() {
+    this.fetchServiceLogs();
+  }
+  fetchServiceLogs() {
+    let api = '/services/logs/' + this.props.service;
+    axios.post(api)
+    .then(res => {
+      this.setState({
+        serviceErrLogs: res.data
+      });
+    })
+    .catch(err => {
+      // TODO: Add normal exception handlers
+      console.log(err)
+    })
+  }
   render() {
     return (
       <p>{this.state.serviceErrLogs}</p>
-
     );
   }
 }
