@@ -1,7 +1,13 @@
 var data = require('../helpers/data.js');
 var http = require('http');
+var Docker = require('dockerode');
+var stream = require('stream');
 
 const dockerSocketPath = '/var/run/docker.sock';
+const docker = new Docker({
+  socketPath: dockerSocketPath,
+  version: 'v1.30'
+});
 
 const getServices = function() {
   var servicesNames = [];
@@ -25,33 +31,39 @@ const getLogs = function(service) {
 }
 
 function updateServicesConf() {
-  let options = {
-    socketPath: dockerSocketPath,
-    path: `/v1.29/services`,
-    method: 'GET'
-  };
-  let clientRequest = http.request(options, (res) => {
-    res.setEncoding('utf8');
-    let rawData = '';
-    res.on('data', (chunk) => {
-      rawData += chunk;
-      console.log(chunk);
-    });
-    res.on('end', () => {
-      const parsedData = JSON.parse(rawData);
-      data.servicesConf = eval(parsedData);
-
-    });
+  docker.listServices((err, services) => {
+    if (err) {
+      // TODO: Add error handling
+      console.log(err)
+    }
+    data.servicesConf = services
   });
-  clientRequest.on('error', (e) => {
-
-    console.log(e);
-  });
-  clientRequest.end();
 }
 
 function updateServicesLogs() {
   data.servicesConf.forEach(service => {
+    /*var currentServiceInstance = docker.getService(service["ID"])
+    var logStream = new stream.PassThrough();
+    logStream.on('data', function(chunk){
+      console.log(chunk.toString('utf8'));
+    });
+    currentServiceInstance.logs({
+      follow: false,
+      stdout: true,
+      stderr: true,
+      tail: 200,
+      isStream: false
+    }, function(err, stream){
+      if(err) {
+        return logger.error(err.message);
+      }
+      currentServiceInstance.modem.demuxStream(stream, logStream, logStream);
+        stream.on('end', function(){
+          logStream.end('!stop!');
+          stream.destroy();
+        });
+      });
+    });*/
     let options = {
       socketPath: dockerSocketPath,
       path: 'http://v1.29/services/' + service["ID"] + '/logs?stderr=true&stdout=true&timestamps=true&tail=200',
@@ -75,12 +87,8 @@ function updateServicesLogs() {
 }
 
 setInterval(function() {
-
- updateServicesConf();
- updateServicesLogs();
-
-
-
+  updateServicesConf();
+  updateServicesLogs();
 }, 10000);
 
 module.exports = {

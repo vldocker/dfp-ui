@@ -1,7 +1,6 @@
 var logger = require('winston');
-var http = require('http');
+var axios = require('axios');
 var data = require('../helpers/data.js');
-var request = require('request-promise');
 var utils = require('../helpers/utils.js');
 var proxyHostAndPort = process.env.PROXY_HOST_AND_PORT;
 
@@ -20,16 +19,13 @@ const getServices = function() {
 
 function updateFlowProxyServices() {
   var api = proxyHostAndPort + '/v1/docker-flow-proxy/config?type=json';
-  request({
-      uri: api,
-      json: true
-    })
-    .then((data) => {
-      setProxyServices(data);
-    })
-    .catch((err) => {
-      logger.error("Error while trying to get HAProxy services configurations from docker-flow-proxy Api\n" + err);
-    })
+  axios.get(api)
+  .then((res) => {
+    setProxyServices(res.data)
+  })
+  .catch((err) => {
+    logger.error("Error while trying to get HAProxy services configurations from docker-flow-proxy Api\n" + err);
+  })
 }
 
 function setProxyServices(unFilteredConf) {
@@ -63,21 +59,18 @@ function statsObject() {
 
 function updateServicesStats() {
   var api = proxyHostAndPort + '/v1/docker-flow-proxy/metrics?distribute=true';
-  request({
-      uri: api,
-      method: "GET"
-    })
-    .then((data) => {
-      var jsonString = utils.csvJSON(data);
-      var jsonData = JSON.parse(utils.csvJSON(data));
-      var arrayData = Object.keys(jsonData).map(function(key) {
-        return jsonData[key];
-      });
-      aggregateServicesStats(arrayData);
-    })
-    .catch((err) => {
-        logger.error("Error while trying to get HAProxy services stats from docker-flow-proxy Api\n" +  err);
-    })
+  axios.get(api)
+  .then((res) => {
+    var jsonString = utils.csvJSON(res.data);
+    var jsonData = JSON.parse(utils.csvJSON(res.data));
+    var arrayData = Object.keys(jsonData).map(function(key) {
+      return jsonData[key];
+    });
+    aggregateServicesStats(arrayData);
+  })
+  .catch((err) => {
+    logger.error("Error while trying to get HAProxy services configurations from docker-flow-proxy Api\n" + err);
+  })
 }
 
 function aggregateServicesStats(servicesStats) {

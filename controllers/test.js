@@ -7,7 +7,10 @@ router.post('/', function(req, res, next) {
     socketPath: '/var/run/docker.sock',
     version: 'v1.30'
   });
-  docker.listContainers(function (err, containers) {
+  docker.getService('om1i3vua01dr').logs((err, logs) => {
+    console.log(err)
+  });
+  docker.listServices(function (err, containers) {
     if (err) {
       console.log(err)
     }
