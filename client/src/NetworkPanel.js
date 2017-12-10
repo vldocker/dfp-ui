@@ -1,20 +1,19 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   BrowserRouter as Router,
   Route,
   Switch,
   Link
-} from 'react-router-dom';
-
-import JSONTree from 'react-json-tree';
-import BarChart from 'react-bar-chart';
-import { Panel, ListGroup, ListGroupItem, Col, Row, Table, Accordion } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.css';
-import './App.css';
-import NetworkConfPanel from './NetworkConfPanel.js';
+} from 'react-router-dom'
+import JSONTree from 'react-json-tree'
+import BarChart from 'react-bar-chart'
+import { Panel, ListGroup, ListGroupItem, Col, Row, Table, Accordion } from 'react-bootstrap'
+import 'bootstrap/dist/css/bootstrap.css'
+import './App.css'
+import NetworkConfPanel from './NetworkConfPanel.js'
 
 class NetworkPanel extends Component {
-  render() {
+  render () {
     return (
       <div className="map">
       <br/>
@@ -37,18 +36,14 @@ class NetworkPanel extends Component {
                   </div>
                   <br/>
                   <br/>
-
                   <br/>
                   <br/>
-
               </div>
               </div>
           </div>
       </div>
-
-    );
+    )
   }
 }
 
-
-export default NetworkPanel;
+export default NetworkPanel

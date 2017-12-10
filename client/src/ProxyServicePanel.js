@@ -1,22 +1,21 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   BrowserRouter as Router,
   Route,
   Switch,
   Link
-} from 'react-router-dom';
-
-import JSONTree from 'react-json-tree';
-import BarChart from 'react-bar-chart';
-import { Panel, ListGroup, ListGroupItem, Col, Row, Table, Accordion } from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.css';
-import './App.css';
-import ConfPanel from './ConfPanel.js';
-import LogsPanel from './LogsPanel.js';
-import StatsPanel from './StatsPanel.js';
+} from 'react-router-dom'
+import JSONTree from 'react-json-tree'
+import BarChart from 'react-bar-chart'
+import { Panel, ListGroup, ListGroupItem, Col, Row, Table, Accordion } from 'react-bootstrap'
+import 'bootstrap/dist/css/bootstrap.css'
+import './App.css'
+import ConfPanel from './ConfPanel.js'
+import LogsPanel from './LogsPanel.js'
+import StatsPanel from './StatsPanel.js'
 
 class ProxyServicePanel extends Component {
-  render() {
+  render () {
     return (
       <div className="map">
       <br/>
@@ -33,7 +32,7 @@ class ProxyServicePanel extends Component {
                               <h4 className="title">Service Configurations</h4>
                           </div>
                           <div id="conf">
-                          <ConfPanel service={this.props.match.params.name}></ConfPanel>
+                            <ConfPanel service={this.props.match.params.name}></ConfPanel>
                           </div>
                       </div>
                   </div>
@@ -43,7 +42,6 @@ class ProxyServicePanel extends Component {
                       <div className="card">
                           <div className="header">
                               <h4 className="title">Stats</h4>
-
                           </div>
                         <StatsPanel service={this.props.match.params.name}></StatsPanel>
                       </div>
@@ -64,9 +62,8 @@ class ProxyServicePanel extends Component {
           </div>
       </div>
 
-    );
+    )
   }
 }
 
-
-export default ProxyServicePanel;
+export default ProxyServicePanel

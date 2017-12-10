@@ -22,5 +22,12 @@
     "request-promise": "^4.2.1",
     "serve-favicon": "~2.4.2",
     "winston": "^2.3.1"
+  },
+  "devDependencies": {
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1"
   }
 }

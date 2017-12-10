@@ -1,54 +1,54 @@
 
-import React, { Component } from 'react';
-import { Panel, ListGroup, ListGroupItem, Col, Row, Table, Accordion } from 'react-bootstrap';
-import {BarChart} from 'react-easy-chart';
-import axios from 'axios';
-import 'bootstrap/dist/css/bootstrap.css';
-import './App.css';
+import React, { Component } from 'react'
+import { Panel, ListGroup, ListGroupItem, Col, Row, Table, Accordion } from 'react-bootstrap'
+import {BarChart} from 'react-easy-chart'
+import axios from 'axios'
+import 'bootstrap/dist/css/bootstrap.css'
+import './App.css'
 
 var statsObj = {
-    bin: 0,
-    bout: 0,
-    hrsp_1xx: 0,
-    hrsp_2xx: 0,
-    hrsp_3xx: 0,
-    hrsp_4xx: 0,
-    hrsp_5xx: 0,
-    hrsp_other: 0,
-    req_tot: 0,
-    qtime: 0,
-    ctime: 0,
-    rtime: 0,
-    ttime: 0
-};
+  bin: 0,
+  bout: 0,
+  hrsp_1xx: 0,
+  hrsp_2xx: 0,
+  hrsp_3xx: 0,
+  hrsp_4xx: 0,
+  hrsp_5xx: 0,
+  hrsp_other: 0,
+  req_tot: 0,
+  qtime: 0,
+  ctime: 0,
+  rtime: 0,
+  ttime: 0
+}
 
 class StatsPanel extends Component {
-  constructor() {
-    super();
+  constructor (props) {
+    super(props)
     this.state = {
       serviceStats: statsObj
     }
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.fetchDfpServiceStats()
   }
 
-  fetchDfpServiceStats() {
-    let api = '/dfpServices/stats/' + this.props.service;
+  fetchDfpServiceStats () {
+    let api = '/dfpServices/stats/' + this.props.service
     axios.post(api)
     .then(res => {
       this.setState({
         serviceStats: res.data
-      });
+      })
     })
     .catch(err => {
       // TODO: Add normal exception handlers
       console.log(err)
-    });
+    })
   }
 
-  render() {
+  render () {
     var data = [
     {x: '200', y: this.state.serviceStats.hrsp_2xx, color:'#5cb678'},
     {x: '400', y: this.state.serviceStats.hrsp_4xx, color:'#e8ac78'},
@@ -63,7 +63,7 @@ class StatsPanel extends Component {
             {this.state.dataDisplay ? this.state.dataDisplay : 'Click on a bar to show the value'}
           </div>
           <BarChart margin={{top: 10, right: 100, bottom: 50, left: 60}}
-                    axes grid  height={220} width={400} data={data} clickHandler={(d) => this.setState({dataDisplay: `Status code ${d.x} - ${d.y}`})}/>
+                    axes grid height={220} width={400} data={data} clickHandler={(d) => this.setState({dataDisplay: `Status code ${d.x} - ${d.y}`})}/>
           <div id="total-req">
             <h5 className="title"> <strong>Total Responses: </strong> {this.state.serviceStats.req_tot}</h5>
           </div>
@@ -82,9 +82,8 @@ class StatsPanel extends Component {
           </div>
         </Col>
       </Row>
-    );
+    )
   }
 }
 
-
-export default StatsPanel;
+export default StatsPanel
