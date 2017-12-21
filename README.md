@@ -82,4 +82,4 @@ Observe that the new services can be explored though the UI.
 - [ ] Display HAProxy stats just to proxy services
 - [ ] Add filter in logs panel to display stdrr and stdout logs
 - [ ] Renaming
- 
+- [ ] Implement alerts with react-s-alert.
